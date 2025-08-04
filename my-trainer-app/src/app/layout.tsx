@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ThemeWrapper from "@/components/ThemeWrapper";
+import { ChatStoreContext, ChatStoreProvider } from "@/providers/ChatProvider";
+import StoresProvider from "@/providers/StoresProvider";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +27,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className="scroll-smooth" >
+
+      <body className={`${geistSans.variable}  ${geistMono.variable} antialiased dark:bg-gray-900 bg-[#FFFFFF] min-h-screen flex flex-col`}>
+        <StoresProvider>
+          <ThemeWrapper>
+            {children}
+          </ThemeWrapper>
+        </StoresProvider>
       </body>
     </html>
   );

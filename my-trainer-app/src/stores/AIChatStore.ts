@@ -1,5 +1,3 @@
-import { useChatStore } from '@/providers/ChatProvider'
-import { useUserChatsStore } from '@/providers/UserChatsProvider'
 import { createClient } from '@/utils/supabase/client'
 import { createStore } from 'zustand/vanilla'
 

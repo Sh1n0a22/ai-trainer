@@ -2,7 +2,6 @@
 import { Input } from "@/components/ui/input";
 import { signup } from "../actions";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { signupClient } from "../clientActions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";

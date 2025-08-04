@@ -6,15 +6,14 @@ import {
 } from "@/components/ui/menubar"
 import { Button } from "./ui/button"
 import { useTheme } from "next-themes"
-import { use, useEffect, useLayoutEffect, useState } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import LogoutModal from "./LogoutModal"
 import BurgerMenu from "./BurgerMenu"
 import useUser from "@/hooks/useUser"
-import { User } from "@supabase/supabase-js"
-import { createClient } from "@/utils/supabase/client"
+
 
 export default function NavBar() {
     const { setTheme, theme } = useTheme()
@@ -38,7 +37,7 @@ export default function NavBar() {
 
     return (<>
         {logOutConfimation && <LogoutModal setLogOutConfimation={setLogOutConfimation} />}
-        <nav className="bg-gray-300 dark:bg-gray-800  max-w-full flex overflow-clip justify-between px-4 md:justify-between items-center sticky top-0 z-20">
+        <nav className="bg-gray-300 dark:bg-gray-800 h-14 max-w-full flex overflow-clip justify-between px-4 md:justify-between items-center sticky top-0 z-20">
 
             <img
                 src="/gym-logo60px.png"

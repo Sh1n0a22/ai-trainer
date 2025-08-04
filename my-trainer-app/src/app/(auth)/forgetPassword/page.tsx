@@ -3,9 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { resetPassword } from "../actions";
 import { resetPasswordClient } from "../clientActions";
-import { redirect } from "next/navigation";
 
 export default function ForgetPassword() {
     const handleresetPassword = (event: React.FormEvent<HTMLFormElement>) => {

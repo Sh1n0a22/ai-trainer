@@ -1,9 +1,8 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { redirect } from "next/navigation";
 import { changePasswordClient } from "../../clientActions";
 import { changePassword } from "../../actions";
 import { useEffect, useState } from "react";

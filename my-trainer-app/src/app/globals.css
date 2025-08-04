@@ -164,3 +164,15 @@
     min-height: calc(100vh + 200px); /* Adjust to fit tall screens */
   }
 }
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.running-line {
+  animation: scroll-loop 20s linear infinite;
+}

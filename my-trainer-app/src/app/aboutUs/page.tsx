@@ -5,7 +5,6 @@ import {
   CarouselContent,
   CarouselItem
 } from "@/components/ui/carousel"
-import IMG from "@/components/ui/IMG"
 
 
 export default function AboutUs() {

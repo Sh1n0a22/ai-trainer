@@ -1,10 +1,13 @@
-// utils/supabase/logoutClient.ts
 'use client'
-
-
 import { createClient } from "@/utils/supabase/client"
 import { redirect } from "next/navigation"
+import { z } from 'zod';
+const formSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8, "at least 8 characters").max(20)
+})
 
+type FormValues = z.infer<typeof formSchema>;
 
 export async function logoutClient() {
   const supabase = createClient()
@@ -18,19 +21,18 @@ export async function logoutClient() {
   // You can redirect manually if needed
   window.location.href = '/login'
 }
-export async function loginClient(formData: FormData) {
+export async function loginClient(formData: FormValues) {
   const supabase = await createClient()
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email: formData.email,
+    password: formData.password
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { error } = await supabase.auth.signInWithPassword({email:data.email, password:data.password})
 
-  console.log("error is " + error)
   if (error) {
     redirect('/error')
   }
@@ -38,12 +40,12 @@ export async function loginClient(formData: FormData) {
   redirect('/')
 }
 
-export async function signupClient(formData: FormData) {
+export async function signupClient(formData: FormValues) {
   const supabase = await createClient()
 
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email: formData.email,
+    password: formData.password
   }
 
   const { error } = await supabase.auth.signUp(data)
@@ -55,10 +57,10 @@ export async function signupClient(formData: FormData) {
   redirect('/')
 }
 
-export async function resetPasswordClient(formData: FormData) {
+export async function resetPasswordClient(formDataEmail: string) {
     const supabase = await createClient()
     const data = {
-        email: formData.get('email') as string
+        email: formDataEmail
     }
   const {error} = await supabase.auth.resetPasswordForEmail(data.email,{redirectTo:"http://localhost:3000/forgetPassword/resetPassword"})
     if (error) {
@@ -67,11 +69,12 @@ export async function resetPasswordClient(formData: FormData) {
     }
 }
 
-export async function changePasswordClient(formData: FormData) {
+export async function changePasswordClient(formDataPassword:string) {
     const supabase = await createClient()
-    const password = formData.get('password') as string
+    const password = formDataPassword
     
      const {error} = await supabase.auth.updateUser({password})
+     
     if (error) {
     console.log("client error is:" + error);
     // redirect('/error')

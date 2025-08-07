@@ -10,7 +10,7 @@ export default function CreateChatModal({ closeModal }: CreateChatModalProps) {
     const createNewChat = useUserChatsStore((chats) => chats.createNewChat)
     const chatTitleRef = useRef<HTMLInputElement>(null)
 
-    const handleChatCreation = () => {
+    const handleChatCreation = async() => {
         const newChatTitle = chatTitleRef.current?.value
         if (newChatTitle) {
             createNewChat(newChatTitle)

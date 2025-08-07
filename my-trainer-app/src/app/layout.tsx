@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeWrapper from "@/components/ThemeWrapper";
-import { ChatStoreContext, ChatStoreProvider } from "@/providers/ChatProvider";
 import StoresProvider from "@/providers/StoresProvider";
 
 

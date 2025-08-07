@@ -55,17 +55,6 @@ export default function AboutUs() {
       </section>
 
 
-{/* 
-      <h4 className="dark:text-gray-50  text-gray-800 font-bold text-3xl flex items-baseline gap-2"> <img src="/target.png" className="w-6  h-full" alt="ourAimImage " />Our aim </h4>
-      <p className="dark:text-gray-50  text-gray-800 text-base">Make personalized fitness guidance affordable, accessible, and backed by real data — for everyone.</p>
-      <h4 className="dark:text-gray-50  text-gray-800 font-bold text-3xl">🧩 Why We Built This?</h4>
-      <p className="dark:text-gray-50  text-gray-800 text-base">
-        Traditional fitness coaching often feels out of reach: expensive, time-limited, or too generic.
-        We wanted to change that.<br />
-        By combining the power of AI with real sports science, we built a platform where anyone — anywhere — can get personalized training that adapts to their goals, lifestyle, and progress.
-      </p> 
-*/}
-
     </section>
     <section className="flex lg:flex-row flex-col max-w-7xl mx-auto items-center gap-10 lg:gap-20 justify-between relative my-10 px-5" >
 

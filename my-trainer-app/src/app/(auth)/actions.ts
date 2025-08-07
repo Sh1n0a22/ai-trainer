@@ -2,15 +2,23 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import {z} from 'zod';
 
-export async function login(formData: FormData) {
+const formSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8, "at least 8 characters").max(20)
+})
+
+type FormValues = z.infer<typeof formSchema>;
+
+export async function login(formData: FormValues) {
   const supabase = await createClient()
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email: formData.email,
+    password: formData.password
   }
 
   const { error } = await supabase.auth.signInWithPassword(data)
@@ -32,12 +40,12 @@ export async function logout() {
 
 }
 
-export async function signup(formData: FormData) {
+export async function signup(formData: FormValues) {
   const supabase = await createClient()
 
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email: formData.email,
+    password: formData.password
   }
 
   const { error } = await supabase.auth.signUp(data)
@@ -49,27 +57,27 @@ export async function signup(formData: FormData) {
   revalidatePath('/', 'layout')
   redirect('/')
 }
-export async function resetPassword(formData: FormData) {
-    const supabase = await createClient()
-    const data = {
-        email: formData.get('email') as string,
-        password: formData.get('password') as string
-    }
-  const {error} = await supabase.auth.resetPasswordForEmail(data.email,{redirectTo:"http://localhost:3000/forgetPassword/resetPassword"})
-    if (error) {
-      console.log("on server" +error);
-      
-    }
+export async function resetPassword(formData: FormValues) {
+  const supabase = await createClient()
+  const data = {
+    email: formData.email,
+    password: formData.password
+  }
+  const { error } = await supabase.auth.resetPasswordForEmail(data.email, { redirectTo: "http://localhost:3000/forgetPassword/resetPassword" })
+  if (error) {
+    console.log("on server" + error);
+
+  }
 }
-export async function changePassword(formData: FormData) {
-    const supabase = await createClient()
-    const data = {
-        password: formData.get('password') as string
-    }
-    const {error} = await supabase.auth.updateUser({password:data.password})
-    if (error) {
+export async function changePassword(formDataPassword: string) {
+  const supabase = await createClient()
+  const data = {
+    password: formDataPassword
+  }
+  const { error } = await supabase.auth.updateUser({ password: data.password })
+  if (error) {
     console.log("server error is:" + error);
     // redirect('/error')
-    }
-    redirect('/')
+  }
+  redirect('/')
 }

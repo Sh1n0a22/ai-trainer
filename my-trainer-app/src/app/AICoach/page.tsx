@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { main } from "./AIService";
 import LimitationModal from "@/components/LimitationsModal";
 import Markdown from "@/components/messageMarkdown";
@@ -41,7 +41,7 @@ export default function AICoach() {
     const setActiveChat = useUserChatsStore(chat => chat.setActiveChat)
 
 
-    const activeChat = getActiveChat()
+    const activeChat =  getActiveChat()
 
     useEffect(() => {
         getUserChats()
@@ -54,17 +54,20 @@ export default function AICoach() {
     }, [userChats])
 
 
-    const selectChat = (chatId: string) => {
+    const selectChat = useCallback((chatId: string) => {
         setActiveChat(chatId)
         getCurrentChatHistory(chatId)
-    }
-    const openClearChatModal = () => {
+    }, [setActiveChat,getCurrentChatHistory])
+
+
+    const openClearChatModal = useCallback(() => {
         setShowClearHistoryModal(true)
-    }
-    const openDeleteChatModal = (ChatId: string) => {
+    },[])
+
+    const openDeleteChatModal = useCallback((ChatId: string) => {
         setShowDeleteChatModal(true)
         setChatIdToDelete(ChatId)
-    }
+    },[])
 
 
 
@@ -93,28 +96,9 @@ export default function AICoach() {
             setUserQuestion("")
         }
     }
-     return (
-    <>
-      {showCreateModal && <CreateChatModal closeModal={setshowCreateModal} />}
-      {showErrorModal && <LimitationModal errorMessage={errorMessage} closeModal={setShowErrorModal} />}
-      {showClearHistoryModal && <ClearHistoryModal closeModal={setShowClearHistoryModal} />}
-      {showDeleteChatModal && <DeleteChatModal ChatId={chatIdToDelete} closeModal={setShowDeleteChatModal} />}
 
-      <div className="grid grid-cols-[1fr] p-2">
-         <Button
-          variant={"ghost"}
-          className="hover:dark:bg-gray-700 w-10 sticky top-16 col-start-2  right-0 text-2xl"
-          onClick={() => setIsChatsMenu(true)}
-        >
-          ☰
-        </Button>
-
-        {/* Main Column: Chat + Input */}
-        <div className="flex flex-col w-full max-w-3xl mx-auto ">
-          {/* Chat History */}
-          <div >
-            {chatHistory &&
-              chatHistory.map((msg, i) => {
+    const renderedMessages = useMemo(()=>{
+     return chatHistory.map((msg, i) => {
                 const isUser = msg.role === "user";
                 return isUser ? (
                   <p
@@ -136,7 +120,31 @@ export default function AICoach() {
                     <Markdown markdown={msg?.message} />
                   </div>
                 );
-              })}
+              })
+    },[chatHistory])
+
+     return (
+    <>
+      {showCreateModal && <CreateChatModal closeModal={setshowCreateModal} />}
+      {showErrorModal && <LimitationModal errorMessage={errorMessage} closeModal={setShowErrorModal} />}
+      {showClearHistoryModal && <ClearHistoryModal closeModal={setShowClearHistoryModal} />}
+      {showDeleteChatModal && <DeleteChatModal ChatId={chatIdToDelete} closeModal={setShowDeleteChatModal} />}
+
+      <div className="grid grid-cols-[1fr] p-2">
+         <Button
+          variant={"ghost"}
+          className="hover:dark:bg-gray-700 w-10 sticky top-16 col-start-2  right-0 text-2xl"
+          onClick={() => setIsChatsMenu(true)}
+        >
+          ☰
+        </Button>
+
+        {/* Main Column: Chat + Input */}
+    
+          <div className="flex flex-col w-full max-w-3xl mx-auto min-h-[calc(100dvh-4rem)] justify-between">
+          {/* Chat History */}
+          <div >
+            {renderedMessages}
           </div>
 
           {/* Input Form */}

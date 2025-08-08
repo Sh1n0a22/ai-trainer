@@ -44,6 +44,7 @@ export default function InputFormField<TName extends keyof FormValues>({
                     <FormControl>
 
                         <Input
+                            className="my-2"
                             type={type}
                             placeholder={placeholder}
                             autoComplete={autoComplete}

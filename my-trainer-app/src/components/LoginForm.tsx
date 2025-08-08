@@ -57,8 +57,8 @@ export default function LoginForm() {
                     </fieldset>
 
 
-                    <div className="flex-col flex gap-3">
-                        <Button type="submit" disabled={formState.isSubmitting}>
+                    <div className="flex-col flex gap-8">
+                        <Button className="" type="submit" disabled={formState.isSubmitting}>
                             {formState.isSubmitting ? "Logining..." : "Login"}
                         </Button>
                         <div className="flex justify-between flex-wrap ">

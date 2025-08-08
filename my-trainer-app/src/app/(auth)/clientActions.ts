@@ -81,3 +81,19 @@ export async function changePasswordClient(formDataPassword:string) {
     }
     redirect('/')
 }
+
+export async function signInWithFacebookClient() {
+    const supabase = await createClient()
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'facebook',
+      options:{
+        redirectTo: `${location.origin}/callback`
+      }
+    })
+    console.log("location", location.origin)
+    if (error) {
+      console.log("error is", error);
+    }
+
+    
+  }
